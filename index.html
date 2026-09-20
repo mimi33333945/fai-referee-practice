@@ -276,12 +276,7 @@ footer{font-size:16px!important;font-weight:1000!important;padding:10px 14px!imp
 /* ===== App-style page navigation: one screen at a time ===== */
 body{overflow-x:hidden!important}
 #home,#pagePick,#quiz,#result,#dash{
- @media(max-width:759px){
-  footer{
-    position:static!important;
-    margin:12px 14px 18px!important;
-  }
-}
+ @m
  width:100vw!important;
  min-height:100dvh!important;
  position:absolute!important;
@@ -297,6 +292,12 @@ body{overflow-x:hidden!important}
 <body><div class="wrap">
 <section id="home" class="hero">
 <h1>🏆 FAI 丙級裁判檢定練習系統</h1>
+ @media(max-width:759px){
+  footer{
+    position:static!important;
+    margin:12px 14px 18px!important;
+  }
+}
 <div class="sub">完整教材練習 × 重點進階 × 錯題循環 × PDF列印</div>
 <div class="grid">
 <button class="b1" onclick="start('basic')">🌱 初階完整練習<br><span class="small">教材全範圍隨機練習</span></button>
