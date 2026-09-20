@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FAI 丙級裁判檢定練習系統</title><meta name="theme-color" content="#07131d"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+:root{
+ --bg:#07131d;--bg2:#0c2230;--panel:#0e2533;--panel2:#102c3c;
+ --line:#28566b;--cyan:#55d9ff;--ice:#dff7ff;--text:#f5fbff;--muted:#a9c4d1;
+ --good:#163f36;--bad:#4a2027;--warn:#3d3518;
+}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;min-height:100%;background:var(--bg);font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,-apple-system,sans-serif;color:var(--text)}
+body{background:
+ radial-gradient(circle at 85% 8%,#16465b 0,transparent 28%),
+ linear-gradient(145deg,var(--bg),var(--bg2) 55%,#08151e);
+ font-size:18px;letter-spacing:.2px}
+.wrap{width:100%;max-width:none;min-height:100svh;margin:0;padding:0 0 92px}
+.hero{min-height:100svh;width:100%;border-radius:0;padding:clamp(24px,5vw,54px) clamp(18px,5vw,64px) 105px;
+ display:flex;flex-direction:column;justify-content:center;background:
+ linear-gradient(180deg,#07131dbf,#07131df0),
+ repeating-linear-gradient(90deg,transparent 0 49px,#55d9ff0b 50px),
+ repeating-linear-gradient(0deg,transparent 0 49px,#55d9ff0b 50px)}
+.hero:before{content:"◉  DRONE SOCCER  /  REFEREE TRAINING";display:block;color:var(--cyan);font-weight:900;letter-spacing:2.2px;font-size:13px;margin-bottom:16px}
+h1{font-size:clamp(32px,7vw,58px);line-height:1.12;margin:0 0 13px;font-weight:950;letter-spacing:-1px;text-shadow:0 0 24px #55d9ff22}
+h2{font-size:clamp(25px,5vw,36px);line-height:1.25;font-weight:900}
+.sub{font-size:clamp(17px,3.8vw,22px);color:var(--muted);font-weight:650;line-height:1.6}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:25px;width:100%}
+button,.btn{border:1px solid var(--line);border-radius:16px;padding:20px 16px;font-size:clamp(17px,4vw,21px);line-height:1.35;font-weight:850;cursor:pointer;color:var(--text);
+ background:linear-gradient(145deg,#102c3c,#0b202d);box-shadow:0 8px 22px #0005;min-height:76px}
+button:active{transform:scale(.985)}
+.b1,.b2,.b3,.b4,.b5{background:linear-gradient(145deg,#123447,#0c2432)}
+.b1{border-color:#3d8ca7}.b2{border-color:#5aa4b8}.b3{border-color:#356f8b}.b4{border-color:#6c7280}.b5{border-color:#8a793e}
+button span.small{color:var(--muted)}
+.wide{grid-column:1/-1}
+.panel{width:min(980px,100%);min-height:calc(100svh - 70px);margin:0 auto;padding:clamp(22px,5vw,48px) clamp(16px,5vw,50px) 100px;
+ background:linear-gradient(180deg,#0d2230,#081721);border-radius:0;box-shadow:none}
+.hide{display:none!important}
+.progress{height:10px;background:#183343;border-radius:99px;overflow:hidden;margin:14px 0 26px}
+.bar{height:100%;background:linear-gradient(90deg,#55d9ff,#b8f1ff);width:0;box-shadow:0 0 14px #55d9ff}
+.opt{display:block;width:100%;text-align:left;margin:12px 0;padding:20px 18px;background:#102936;border:1px solid #315669;border-radius:14px;font-size:clamp(18px,4vw,22px);font-weight:760;min-height:68px}
+.opt:hover{border-color:var(--cyan);background:#123243}
+.ok{background:var(--good)!important;border-color:#52c79e!important}.bad{background:var(--bad)!important;border-color:#e06f7c!important}
+.meta{font-size:15px;color:var(--cyan);font-weight:750;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.explain{background:#112d39;border:1px solid #37687b;border-left:5px solid var(--cyan);border-radius:13px;padding:17px;margin-top:16px;font-size:17px;line-height:1.65}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stat{background:#102936;border:1px solid #274b5c;border-radius:15px;padding:18px;text-align:center;color:var(--muted)}.stat b{display:block;font-size:30px;color:var(--text)}
+footer{position:fixed;right:10px;bottom:8px;font-size:11px;color:#c3d6df;background:#07131de8;border:1px solid #294957;padding:7px 10px;border-radius:8px;z-index:20}
+.small{font-size:14px;color:var(--muted)} select{width:100%;padding:16px;border-radius:12px;border:1px solid #35586a;background:#0d2633;color:white;font-size:18px}
+.tech-ball{width:96px;height:96px;margin:22px auto 0;border:5px solid #6ce2ff;border-radius:50%;position:relative;box-shadow:0 0 28px #55d9ff66,inset 0 0 20px #55d9ff33}
+.tech-ball:before,.tech-ball:after{content:"";position:absolute;left:13px;right:13px;top:42px;height:3px;background:#6ce2ff;transform:rotate(45deg);box-shadow:0 0 10px #55d9ff}
+.tech-ball:after{transform:rotate(-45deg)}
+@media(max-width:620px){
+ .hero{justify-content:flex-start;padding-top:44px}.grid{grid-template-columns:1fr;gap:11px}.wide{grid-column:auto}
+ .stats{grid-template-columns:1fr 1fr}.panel{width:100%}h1{font-size:36px}
+}
+@media print{
+ body{background:white;color:#111}.no-print,footer{display:none!important}.print-sheet{display:block!important}
+ .print-page{page-break-after:always;position:relative;min-height:260mm;padding:10mm 8mm 20mm;color:#111;background:#fff}
+ .print-sign{position:absolute;right:8mm;bottom:5mm;font-size:9pt}.print-q{margin:0 0 14px;line-height:1.6}
+}
+
+html,body{width:100%;min-height:100%;overflow-x:hidden;-webkit-text-size-adjust:100%}
+body{min-height:100dvh}
+.wrap{width:100%;min-height:100dvh;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+.hero{width:100%;max-width:none;min-height:100dvh;padding-top:max(32px,env(safe-area-inset-top));padding-bottom:max(92px,calc(env(safe-area-inset-bottom) + 78px))}
+.panel{width:100%;max-width:none;min-height:100dvh;margin:0;padding-top:max(22px,env(safe-area-inset-top));padding-bottom:max(92px,calc(env(safe-area-inset-bottom) + 78px))}
+footer{right:max(10px,env(safe-area-inset-right));bottom:max(8px,env(safe-area-inset-bottom));max-width:calc(100vw - 20px)}
+@media(max-width:759px){
+ .hero{display:block;padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
+ .panel{padding-left:max(15px,env(safe-area-inset-left));padding-right:max(15px,env(safe-area-inset-right))}
+ .grid{grid-template-columns:1fr;width:100%;gap:10px}.wide{grid-column:1}
+ button,.btn,.opt{width:100%}button,.btn{min-height:68px;font-size:18px}
+ h1{font-size:clamp(30px,9vw,42px)}.sub{font-size:17px}.opt{font-size:19px;min-height:66px}
+ .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(min-width:760px){
+ .hero{padding-left:6vw;padding-right:6vw}.hero>.grid{max-width:1100px}
+ .panel{max-width:1080px;margin:0 auto;padding-left:42px;padding-right:42px}
+}
+
+/* Mobile full-view correction */
+html,body{margin:0!important;padding:0!important;width:100%!important;min-height:100%!important;overflow-x:hidden!important}
+body{min-height:100dvh!important}
+.wrap{width:100vw!important;min-height:100dvh!important;margin:0!important;padding:0!important}
+.hero{
+ box-sizing:border-box!important;width:100vw!important;min-height:100dvh!important;
+ margin:0!important;border-radius:0!important;
+ display:block!important;justify-content:initial!important;
+ padding:max(22px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right))
+ max(72px,calc(env(safe-area-inset-bottom) + 62px)) max(16px,env(safe-area-inset-left))!important;
+}
+.hero:before{margin:0 0 12px!important}
+.hero .grid{margin-top:20px!important}
+.panel{
+ box-sizing:border-box!important;width:100vw!important;max-width:100vw!important;
+ min-height:100dvh!important;margin:0!important;border-radius:0!important;
+ padding:max(18px,env(safe-area-inset-top)) max(15px,env(safe-area-inset-right))
+ max(72px,calc(env(safe-area-inset-bottom) + 62px)) max(15px,env(safe-area-inset-left))!important;
+}
+@media(max-width:759px){
+ h1{font-size:clamp(29px,8.4vw,39px)!important;margin-top:0!important}
+ .sub{font-size:17px!important;margin-top:8px!important}
+ .grid{display:grid!important;grid-template-columns:1fr!important;gap:10px!important}
+ button,.btn{width:100%!important;min-height:72px!important;font-size:19px!important}
+ .opt{font-size:19px!important}
+ footer{font-size:9px!important;max-width:94vw!important}
+}
+
+/* ===== Bright professional mobile full-screen redesign ===== */
+:root{
+ --bg:#f4f9fc;--bg2:#e9f4f8;--panel:#ffffff;--panel2:#f7fbfd;
+ --line:#b9d7e3;--cyan:#087fa5;--ice:#e7f7fb;--text:#16313f;
+ --muted:#607b88;--good:#e6f7ef;--bad:#fff0f0;--warn:#fff7df;
+}
+html,body{background:#eef6f9!important;color:var(--text)!important}
+body{
+ background:
+ radial-gradient(circle at 90% 8%,#d7f2f8 0,transparent 30%),
+ linear-gradient(150deg,#fbfdfe,#eef7fa 58%,#e5f2f6)!important;
+}
+.wrap{background:transparent!important}
+.hero{
+ min-height:100dvh!important;
+ display:flex!important;flex-direction:column!important;justify-content:flex-start!important;
+ background:
+ linear-gradient(180deg,#ffffffee,#edf7faee),
+ repeating-linear-gradient(90deg,transparent 0 49px,#087fa508 50px),
+ repeating-linear-gradient(0deg,transparent 0 49px,#087fa508 50px)!important;
+ color:var(--text)!important;
+}
+.hero:before{color:#087fa5!important}
+.hero .sub{color:#607b88!important}
+.hero .grid{
+ flex:1!important;
+ display:grid!important;
+ align-content:stretch!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ grid-template-rows:repeat(4,minmax(74px,1fr))!important;
+ gap:12px!important;margin-top:20px!important;margin-bottom:6px!important;
+}
+button,.btn,.b1,.b2,.b3,.b4,.b5{
+ color:#173744!important;
+ background:linear-gradient(145deg,#ffffff,#eaf5f8)!important;
+ border:1px solid #9fcbd9!important;
+ box-shadow:0 7px 18px #557b8d18!important;
+}
+button:active{background:#dff1f6!important}
+.small,button span.small{color:#68818c!important}
+.panel{
+ background:linear-gradient(180deg,#ffffff,#edf7fa)!important;color:#173744!important;
+}
+.opt{background:#fff!important;color:#173744!important;border-color:#bad4df!important}
+.opt:hover{background:#edf8fb!important;border-color:#1788a8!important}
+.meta{color:#087fa5!important}.progress{background:#dcebef!important}.bar{background:linear-gradient(90deg,#168caf,#65c8dc)!important}
+.explain{background:#edf8fb!important;color:#173744!important;border-color:#acd3df!important;border-left-color:#168caf!important}
+.stat{background:#f7fbfc!important;color:#607b88!important;border-color:#c7dde5!important}.stat b{color:#173744!important}
+select{background:#fff!important;color:#173744!important;border-color:#b7d3dd!important}
+footer{background:#ffffffee!important;color:#506a76!important;border-color:#c5dbe3!important}
+
+@media(max-width:759px){
+ .hero{
+   height:100dvh!important;min-height:100dvh!important;
+   padding-top:max(18px,env(safe-area-inset-top))!important;
+   padding-bottom:max(48px,calc(env(safe-area-inset-bottom) + 40px))!important;
+ }
+ .hero:before{font-size:10px!important;margin-bottom:7px!important}
+ h1{font-size:clamp(27px,7.7vw,36px)!important;line-height:1.08!important;margin-bottom:7px!important}
+ .sub{font-size:15px!important;line-height:1.35!important}
+ .hero .grid{
+   grid-template-columns:1fr!important;
+   grid-template-rows:repeat(7,minmax(66px,1fr))!important;
+   gap:8px!important;margin-top:14px!important;
+ }
+ .hero button{min-height:0!important;height:100%!important;padding:10px 14px!important;font-size:17px!important;border-radius:13px!important}
+ .hero button .small{font-size:12px!important}
+ footer{font-size:8px!important;padding:4px 7px!important}
+}
+@media(min-width:760px){
+ .hero .grid{max-width:none!important}
+}
+
+/* ===== Stronger framed UI + larger typography/signature ===== */
+:root{
+ --frame:#1687ad;
+ --frame-strong:#086b91;
+ --frame-soft:#86c9dc;
+}
+.hero{
+ border:5px solid var(--frame-strong)!important;
+ box-shadow:inset 0 0 0 2px #ffffff, inset 0 0 0 7px #cceaf2!important;
+}
+.hero:after{
+ content:"";position:absolute;inset:10px;pointer-events:none;
+ border:1px solid #75bfd4;border-radius:10px;
+}
+.hero{position:relative!important}
+.hero .grid button{
+ border:3px solid var(--frame)!important;
+ box-shadow:0 5px 0 #d0e8ef,0 9px 22px #47798c22!important;
+ font-weight:950!important;
+ letter-spacing:.3px!important;
+}
+.hero .grid button:nth-child(2n){border-color:#2478a2!important}
+.hero .grid button:nth-child(3n){border-color:#2a9b93!important}
+.hero .grid button:nth-child(5n){border-color:#9a7a24!important}
+.panel{
+ border-left:5px solid var(--frame-strong)!important;
+ border-right:5px solid var(--frame-strong)!important;
+}
+.panel button,.opt{
+ border-width:2.5px!important;
+ border-color:var(--frame)!important;
+ font-weight:900!important;
+}
+h1{font-weight:1000!important;letter-spacing:-.7px!important}
+.hero button{font-size:clamp(20px,4.6vw,25px)!important}
+.hero button .small{font-size:clamp(14px,3.3vw,17px)!important;font-weight:800!important;display:block;margin-top:4px}
+#question{font-size:clamp(25px,5.8vw,34px)!important;font-weight:950!important}
+.opt{font-size:clamp(20px,4.8vw,25px)!important}
+footer{
+ font-size:14px!important;font-weight:900!important;
+ color:#174c62!important;background:#fffffffa!important;
+ border:2px solid var(--frame)!important;
+ padding:8px 12px!important;border-radius:10px!important;
+ box-shadow:0 3px 12px #315f7225!important;
+}
+@media(max-width:759px){
+ .hero{border-width:4px!important}
+ .hero:after{inset:7px}
+ .hero .grid button{font-size:20px!important}
+ .hero .grid button .small{font-size:13px!important}
+ footer{font-size:11px!important;padding:6px 9px!important;max-width:96vw!important}
+}
+
+/* ===== Extra-bold category framing + extra-large readable type ===== */
+.hero{border:7px solid #08779e!important;box-shadow:inset 0 0 0 3px #fff,inset 0 0 0 11px #c8eaf3!important}
+.hero:after{border:3px solid #67b9cf!important;inset:12px!important}
+
+/* category cards */
+.hero .grid button{border-width:5px!important;border-style:solid!important;font-size:clamp(24px,5.8vw,31px)!important;font-weight:1000!important;line-height:1.15!important;text-shadow:0 1px 0 #fff;padding:14px!important}
+.hero .grid button:nth-child(1){border-color:#168a70!important;background:#e8f8f3!important}
+.hero .grid button:nth-child(2){border-color:#e36d38!important;background:#fff0e8!important}
+.hero .grid button:nth-child(3){border-color:#2f78b7!important;background:#eaf3fc!important}
+.hero .grid button:nth-child(4){border-color:#d14d59!important;background:#fff0f2!important}
+.hero .grid button:nth-child(5){border-color:#946bb8!important;background:#f5effb!important}
+.hero .grid button:nth-child(6){border-color:#c68b20!important;background:#fff7e4!important}
+.hero .grid button:nth-child(7){border-color:#257c96!important;background:#e9f6fa!important}
+.hero .grid button .small{font-size:clamp(16px,4vw,20px)!important;font-weight:900!important;line-height:1.25!important;color:#3e5965!important}
+
+/* extra-large headings and quiz */
+h1{font-size:clamp(36px,8.8vw,54px)!important;font-weight:1000!important;line-height:1.05!important}
+.sub{font-size:clamp(19px,4.5vw,25px)!important;font-weight:850!important}
+.panel h2,#question{font-size:clamp(30px,7vw,42px)!important;font-weight:1000!important;line-height:1.25!important}
+.opt{font-size:clamp(24px,5.7vw,31px)!important;font-weight:950!important;line-height:1.3!important;border-width:4px!important}
+.meta{font-size:18px!important;font-weight:900!important}
+.explain{font-size:21px!important;font-weight:750!important;line-height:1.7!important;border-left-width:7px!important}
+.stat{font-size:18px!important;font-weight:850!important}.stat b{font-size:36px!important}
+select{font-size:22px!important;font-weight:850!important}
+
+/* larger, unmistakable maker credit */
+footer{font-size:16px!important;font-weight:1000!important;padding:10px 14px!important;border-width:3px!important;color:#0c526d!important}
+
+/* keep mobile full viewport while fitting the 7 cards */
+@media(max-width:759px){
+ .hero{border-width:6px!important;padding-left:14px!important;padding-right:14px!important}
+ .hero:after{inset:8px!important;border-width:2px!important}
+ .hero:before{font-size:11px!important;font-weight:950!important}
+ h1{font-size:clamp(32px,8.4vw,40px)!important}
+ .sub{font-size:17px!important;font-weight:850!important}
+ .hero .grid{gap:8px!important;grid-template-rows:repeat(7,minmax(70px,1fr))!important}
+ .hero .grid button{font-size:22px!important;border-width:4px!important;padding:8px 10px!important}
+ .hero .grid button .small{font-size:14px!important}
+ footer{font-size:12px!important;padding:7px 9px!important}
+}
+
+/* ===== App-style page navigation: one screen at a time ===== */
+body{overflow-x:hidden!important}
+#home,#pagePick,#quiz,#result,#dash{
+ width:100vw!important;
+ min-height:100dvh!important;
+ position:absolute!important;
+ top:0!important;left:0!important;
+ margin:0!important;
+}
+#home{z-index:1}
+#pagePick,#quiz,#result,#dash{z-index:5}
+.hide{display:none!important}
+.panel{background:#f7fbfd!important}
+</style>
+</head>
+<body><div class="wrap">
+<section id="home" class="hero">
+<h1>🏆 FAI 丙級裁判檢定練習系統</h1>
+<div class="sub">完整教材練習 × 重點進階 × 錯題循環 × PDF列印</div>
+<div class="grid">
+<button class="b1" onclick="start('basic')">🌱 初階完整練習<br><span class="small">教材全範圍隨機練習</span></button>
+<button class="b2" onclick="start('advanced')">🔥 進階重點練習<br><span class="small">數字・規格・情境・易混淆</span></button>
+<button class="b3" onclick="start('mock')">🏆 模擬檢定</button>
+<button class="b4" onclick="start('wrong')">❌ 我的錯題</button>
+<button class="b5" onclick="start('wrongExam')">🧠 錯題總複習考</button>
+<button class="b3" onclick="showPagePractice()">📚 依教材頁數練習</button>
+<button class="b1 wide" onclick="showDashboard()">📊 我的學習紀錄／PDF錯題卷</button>
+</div>
+</section>
+
+<section id="pagePick" class="panel hide no-print">
+<h2>📚 依教材頁數練習</h2><select id="pageSel"></select>
+<div class="grid"><button class="b1" onclick="startPage()">開始這一頁</button><button onclick="home()">返回首頁</button></div>
+</section>
+
+<section id="quiz" class="panel hide no-print">
+<div class="meta"><span id="modeName"></span><span id="counter"></span></div>
+<div class="progress"><div id="bar" class="bar"></div></div>
+<h2 id="question"></h2><div id="options"></div><div id="explain" class="explain hide"></div>
+<div class="grid"><button id="next" class="b3 wide hide" onclick="nextQ()">下一題 ➜</button><button onclick="home()">暫停並回首頁</button></div>
+</section>
+
+<section id="result" class="panel hide no-print">
+<h2>🎉 本次練習完成</h2><div id="resultStats" class="stats"></div>
+<div class="grid">
+<button class="b2" onclick="start('sessionWrong')">🔁 立即重做本次錯題</button>
+<button class="b3" onclick="start('wrongExam')">🧠 歷史錯題總考</button>
+<button class="b5" onclick="printWrong(false)">📄 PDF錯題練習卷</button>
+<button class="b1" onclick="printWrong(true)">📖 PDF答案解析版</button>
+<button class="wide" onclick="home()">回首頁</button>
+</div></section>
+
+<section id="dash" class="panel hide no-print">
+<h2>📊 我的學習紀錄</h2><div id="dashStats" class="stats"></div>
+<p class="small">紀錄保存在這台裝置的瀏覽器。清除瀏覽器資料會清除紀錄。</p>
+<div class="grid"><button class="b5" onclick="printWrong(false)">📄 匯出錯題練習卷 PDF</button><button class="b1" onclick="printWrong(true)">📖 匯出答案解析 PDF</button><button class="wide" onclick="home()">返回首頁</button></div>
+</section>
+
+<section id="printSheet" class="print-sheet hide"></section>
+</div>
+<footer>製作：黎昕 Li Xin 跨科教育規劃師／蜜雪兒 Michelle</footer>
+<script>
+const Q=[{"p": 4, "cat": "比賽場地", "q": "比賽場地的表面可以設置在哪裡？", "o": ["僅限室內", "僅限戶外", "室內、外場地均可", "僅限草地"], "a": 2, "e": "教材第4頁：表面可為室內、外場地，並應避免使用過於堅硬的表面。", "adv": false}, {"p": 4, "cat": "比賽場地", "q": "飛行區域的表面覆蓋柔軟附加材料時，無人機球下陷在覆蓋範圍內不得超過多少？", "o": ["0.5公分", "1公分", "2公分", "5公分"], "a": 1, "e": "教材第4頁規定不得沉陷超過1公分，以避免起飛問題。", "adv": true}, {"p": 4, "cat": "比賽場地", "q": "F9A-A 建議保護籠尺寸為何？", "o": ["14m × 7m × 5m", "6m × 3m × 3m", "10m × 5m × 4m", "7m × 4m × 3m"], "a": 0, "e": "教材第4頁：F9A-A 長寬高為14m × 7m × 5m。", "adv": true}, {"p": 4, "cat": "比賽場地", "q": "F9A-B 建議保護籠尺寸為何？", "o": ["14m × 7m × 5m", "6m × 3m × 3m", "8m × 4m × 3m", "5m × 3m × 3m"], "a": 1, "e": "教材第4頁：F9A-B 長寬高為6m × 3m × 3m。", "adv": true}, {"p": 4, "cat": "比賽場地", "q": "檢查比賽場地覆蓋物時，教材特別要求注意哪一項？", "o": ["顏色是否一致", "彈性效應是否影響比賽", "是否印有Logo", "是否全為金屬"], "a": 1, "e": "教材第4頁要求檢查覆蓋物的「彈性效應」是否影響比賽。", "adv": false}, {"p": 5, "cat": "起飛區與選手區", "q": "起飛區長度依據什麼決定？", "o": ["裁判人數", "球的直徑與上場人數", "場館高度", "隊伍顏色"], "a": 1, "e": "教材第5頁：起飛區長度依球的直徑與上場人數決定。", "adv": false}, {"p": 5, "cat": "起飛區與選手區", "q": "F9A-A 起飛區寬度不得超過多少？", "o": ["1m", "1.5m", "2m", "3m"], "a": 1, "e": "教材第5頁：F9A-A 不超過1.5m。", "adv": true}, {"p": 5, "cat": "起飛區與選手區", "q": "F9A-B 起飛區寬度不得超過多少？", "o": ["0.5m", "1m", "1.5m", "2m"], "a": 1, "e": "教材第5頁：F9A-B 不超過1m。", "adv": true}, {"p": 6, "cat": "球門環", "q": "F9A-A 球門環外徑 D1 為多少？", "o": ["70公分", "80公分", "100公分", "120公分"], "a": 2, "e": "教材第6頁：F9A-A 外徑D1為100公分。", "adv": true}, {"p": 6, "cat": "球門環", "q": "F9A-A 球門環內徑 D2 為多少？", "o": ["40公分", "60公分", "70公分", "100公分"], "a": 1, "e": "教材第6頁：F9A-A 內徑D2為60公分。", "adv": true}, {"p": 6, "cat": "球門環", "q": "F9A-A 球門環最大厚度 T 為多少？", "o": ["10公分", "15公分", "20公分", "30公分"], "a": 2, "e": "教材第6頁：F9A-A 最大厚度20公分。", "adv": true}, {"p": 6, "cat": "球門環", "q": "F9A-B 球門環外徑 D1 為多少？", "o": ["40公分", "60公分", "70公分", "100公分"], "a": 2, "e": "教材第6頁：F9A-B 外徑D1為70公分。", "adv": true}, {"p": 6, "cat": "球門環", "q": "F9A-B 球門環內徑 D2 為多少？", "o": ["20公分", "40公分", "60公分", "70公分"], "a": 1, "e": "教材第6頁：F9A-B 內徑D2為40公分。", "adv": true}, {"p": 6, "cat": "球門環", "q": "F9A-B 球門環最大厚度 T 為多少？", "o": ["5公分", "10公分", "15公分", "20公分"], "a": 1, "e": "教材第6頁：F9A-B 最大厚度10公分。", "adv": true}, {"p": 7, "cat": "球門環", "q": "球門環材料應具備什麼特性？", "o": ["堅硬且無彈性", "輕且易碎", "夠堅固且有足夠彈性", "必須為金屬"], "a": 2, "e": "教材第7頁：材料夠堅固、有足夠彈性。", "adv": false}, {"p": 7, "cat": "球門環", "q": "球門環顏色規定為何？", "o": ["只能紅色", "一紅一藍，符合分配各隊顏色", "全部白色", "可任意顏色"], "a": 1, "e": "教材第7頁：一紅一藍，符合分配各隊顏色。", "adv": false}, {"p": 7, "cat": "球門環", "q": "球門環附近可否有電子計分感測器？", "o": ["禁止", "可以", "僅F9A-A可", "僅F9A-B可"], "a": 1, "e": "教材第7頁允許電子計分感測器，不干擾球穿越。", "adv": false}, {"p": 7, "cat": "球門環", "q": "F9A-A 球門環位置為何？", "o": ["離底線1m、環內底高2m", "離底線1.5m、環內底高3m", "離底線2m、環內底高1.5m", "貼著底線、環內底高3m"], "a": 1, "e": "教材第7頁：F9A-A 離底線1.5m，環內底高3m。", "adv": true}, {"p": 7, "cat": "球門環", "q": "F9A-B 球門環位置為何？", "o": ["離底線1m、環內底高2m", "離底線1.5m、環內底高3m", "離底線2m、環內底高2m", "貼著底線、環內底高1m"], "a": 0, "e": "教材第7頁：F9A-B 離底線1m，環內底高2m。", "adv": true}, {"p": 9, "cat": "無人機基本規格", "q": "無人機球必須配備何種故障安全裝置？", "o": ["失控後加速", "啟動後馬達停止運轉的故障安全裝置", "自動返航GPS", "自動追蹤球門"], "a": 1, "e": "教材第9頁要求配備故障安全裝置，啟動後馬達會停止運轉。", "adv": false}, {"p": 9, "cat": "無人機基本規格", "q": "教材禁止使用哪一類系統？", "o": ["碰撞恢復模式", "預編程自動飛行控制系統", "RC遙控設備", "LED燈條"], "a": 1, "e": "教材第9頁禁止預編程自動飛行控制系統及自動定位或航道修正系統。", "adv": true}, {"p": 9, "cat": "無人機基本規格", "q": "下列何者屬教材允許的功能？", "o": ["預編程自動飛行", "自動定位航道修正", "碰撞恢復模式", "全自動得分"], "a": 2, "e": "教材第9頁允許軟體恢復模式，例如碰撞後翻轉／烏龜模式等。", "adv": true}, {"p": 10, "cat": "尺寸與重量", "q": "無人機球保護框可由何種材料製成？", "o": ["只能金屬", "塑膠或複合材料，但不能由金屬製成", "只能木材", "不限材料"], "a": 1, "e": "教材第10頁：保護框架可由塑膠或複合材料製成，但不能由金屬製成。", "adv": false}, {"p": 10, "cat": "尺寸與重量", "q": "F9A-A 無人機球總重量不得超過多少？", "o": ["300公克", "800公克", "1.2公斤", "2公斤"], "a": 2, "e": "教材第10頁：F9A-A總重量不得超過1.2公斤。", "adv": true}, {"p": 10, "cat": "尺寸與重量", "q": "F9A-B 無人機球總重量不得超過多少？", "o": ["200公克", "300公克", "500公克", "1.2公斤"], "a": 1, "e": "教材第10頁：F9A-B總重量不得超過300公克。", "adv": true}, {"p": 10, "cat": "尺寸與重量", "q": "F9A-A 保護框直徑規格為何？", "o": ["20公分±2公分", "30公分±2公分", "40公分±2公分", "50公分±2公分"], "a": 2, "e": "教材第10頁：F9A-A保護框直徑40公分±2公分。", "adv": true}, {"p": 10, "cat": "尺寸與重量", "q": "F9A-B 保護框直徑規格為何？", "o": ["20公分±2公分", "30公分±2公分", "40公分±2公分", "50公分±2公分"], "a": 0, "e": "教材第10頁：F9A-B保護框直徑20公分±2公分。", "adv": true}, {"p": 10, "cat": "尺寸與重量", "q": "框架上任何單一開放表面，其面積不得超過多少？", "o": ["50 cm²", "100 cm²", "150 cm²", "200 cm²"], "a": 2, "e": "教材第10頁：任何單一開放表面面積不得超過150 cm²。", "adv": true}, {"p": 11, "cat": "馬達電池螺旋槳", "q": "無人機足球僅允許使用哪種馬達？", "o": ["有刷馬達", "無刷電動馬達", "油動引擎", "任意馬達"], "a": 1, "e": "教材第11頁：僅允許使用無刷電動馬達，最多可配備四個。", "adv": false}, {"p": 11, "cat": "馬達電池螺旋槳", "q": "最多可配備幾個電動馬達？", "o": ["2個", "3個", "4個", "6個"], "a": 2, "e": "教材第11頁：最多可配備四個電動馬達。", "adv": false}, {"p": 11, "cat": "馬達電池螺旋槳", "q": "教材對螺旋槳材質的限制為何？", "o": ["只能金屬", "禁止使用金屬螺旋槳", "只能碳纖", "不限"], "a": 1, "e": "教材第11頁禁止使用金屬螺旋槳。", "adv": false}, {"p": 11, "cat": "馬達電池螺旋槳", "q": "F9A-A 最多允許使用幾S電池組？", "o": ["3S", "4S", "6S", "8S"], "a": 2, "e": "教材第11頁：F9A-A最多允許6S電池組。", "adv": true}, {"p": 11, "cat": "馬達電池螺旋槳", "q": "F9A-B 最多允許使用幾S電池組？", "o": ["2S", "3S", "4S", "6S"], "a": 2, "e": "教材第11頁：F9A-B最多允許4S電池組。", "adv": true}, {"p": 11, "cat": "馬達電池螺旋槳", "q": "每個電芯電壓不得超過多少？", "o": ["3.7V", "4.0V", "4.25V", "5V"], "a": 2, "e": "教材第11頁：每個電芯電壓不得超過4.25V。", "adv": true}, {"p": 11, "cat": "馬達電池螺旋槳", "q": "F9A-A 螺旋槳直徑上限為何？", "o": ["3吋", "4吋", "6吋", "8吋"], "a": 2, "e": "教材第11頁：F9A-A螺旋槳直徑為6英吋（15.2公分）。", "adv": true}, {"p": 11, "cat": "馬達電池螺旋槳", "q": "F9A-B 螺旋槳直徑上限為何？", "o": ["2吋", "3吋", "4吋", "6吋"], "a": 1, "e": "教材第11頁：F9A-B螺旋槳直徑為3英吋（7.6公分）。", "adv": true}, {"p": 12, "cat": "LED與頻率", "q": "教材允許使用哪一頻段的擴頻技術RC設備？", "o": ["900MHz", "1.2GHz", "2.4GHz", "5.8GHz限定"], "a": 2, "e": "教材第12頁：所有2.4GHz擴頻技術RC設備均可使用。", "adv": false}, {"p": 12, "cat": "LED與頻率", "q": "LED燈條主要分辨哪兩種顏色？", "o": ["紅、藍", "紅、綠", "黃、藍", "白、黑"], "a": 0, "e": "教材第12頁：LED燈條分辨紅、藍色。", "adv": false}, {"p": 12, "cat": "LED與頻率", "q": "F9A-A 至少需要多少個獨立LED元件？", "o": ["16", "20", "40", "60"], "a": 2, "e": "教材第12頁：40公分無人機球（F9A-A）至少40個獨立LED元件。", "adv": true}, {"p": 12, "cat": "LED與頻率", "q": "F9A-B 至少需要多少個獨立LED元件？", "o": ["8", "16", "20", "40"], "a": 1, "e": "教材第12頁：20公分無人機球（F9A-B）至少16個LED元件。", "adv": true}, {"p": 12, "cat": "LED與頻率", "q": "無人機球後部附加LED燈組至少有幾個LED？", "o": ["2", "4", "6", "8"], "a": 2, "e": "教材第12頁：後部安裝至少有6個LED的附加燈組。", "adv": true}, {"p": 12, "cat": "LED與頻率", "q": "識別攻擊手時，主辦單位要求使用什麼？", "o": ["金屬牌", "懸掛絲帶或薄材料的帶子", "更換遙控器", "改變螺旋槳"], "a": 1, "e": "教材第12頁：識別攻擊手，主辦單位要求懸掛絲帶或薄材料的「帶子」。", "adv": false}, {"p": 14, "cat": "選手", "q": "F9A-A 每隊上場幾名？", "o": ["3名", "4名", "5名", "6名"], "a": 2, "e": "教材第14頁：F9A-A每隊出場5名。", "adv": true}, {"p": 14, "cat": "選手", "q": "F9A-B 每隊上場幾名？", "o": ["2名", "3名", "4名", "5名"], "a": 1, "e": "教材第14頁：F9A-B每隊出場3名。", "adv": true}, {"p": 14, "cat": "選手", "q": "每隊人員分配中有幾名攻擊手？", "o": ["1名", "2名", "3名", "不限"], "a": 0, "e": "教材第14頁：1名攻擊手，其餘為防守員或擔任攻擊手的引導。", "adv": false}, {"p": 14, "cat": "選手", "q": "兩局之間的休息時間可以如何處理？", "o": ["不得換人", "直接換參賽選手", "只能換攻擊手", "只能換防守員"], "a": 1, "e": "教材第14頁：兩局之間休息時間可直接換參賽選手。", "adv": false}, {"p": 14, "cat": "選手", "q": "每隊參賽選手中應派幾人為隊長？", "o": ["1人", "2人", "3人", "不需隊長"], "a": 0, "e": "教材第14頁：每隊參賽選手中指派1人為隊長。", "adv": false}, {"p": 14, "cat": "選手", "q": "報名參賽人數如何計算？", "o": ["主辦單位排定人數", "上場比賽選手人數加2名額外選手", "上場人數加5人", "不限"], "a": 1, "e": "教材第14頁：報名參賽手人數為主辦單位排訂上場比賽選手人數加2名額外選手。", "adv": true}, {"p": 15, "cat": "裁判與賽事人員", "q": "教材列出的賽事人員不包含下列哪一項？", "o": ["賽事總監", "總裁判", "主裁判", "攝影裁判"], "a": 3, "e": "教材第15頁列出賽事總監、總裁判、檢錄裁判、主裁判、得分裁判、防守裁判、計分裁判。", "adv": false}, {"p": 16, "cat": "賽事總監", "q": "誰負責全程監督賽事運作並擔負與安全有關的所有責任？", "o": ["計分裁判", "賽事總監", "隊長", "攻擊手"], "a": 1, "e": "教材第16頁：賽事總監負責全程監督賽事運作及安全相關責任。", "adv": true}, {"p": 16, "cat": "賽事總監", "q": "誰協助主裁判確保比賽符合規則？", "o": ["賽事總監", "觀眾", "選手", "攝影人員"], "a": 0, "e": "教材第16頁列為賽事總監職責。", "adv": false}, {"p": 16, "cat": "賽事總監", "q": "誰可根據賽事形式組織抽籤、詳細賽程及比賽順序？", "o": ["賽事總監", "得分裁判", "隊長", "防守員"], "a": 0, "e": "教材第16頁列為賽事總監職責。", "adv": true}, {"p": 16, "cat": "賽事總監", "q": "核定每場比賽結果及初步與最終排名，是誰的職責？", "o": ["賽事總監", "計分裁判單獨決定", "選手", "檢錄裁判"], "a": 0, "e": "教材第16頁列為賽事總監職責。", "adv": true}, {"p": 16, "cat": "賽事總監", "q": "批准練習飛行與宣布隊伍取消參賽資格，教材列為誰的職責？", "o": ["賽事總監", "攻擊手", "計分裁判", "觀眾"], "a": 0, "e": "教材第16頁列為賽事總監職責。", "adv": true}, {"p": 17, "cat": "總裁判", "q": "主裁判由誰任命？", "o": ["隊長", "一位主裁判被任命負責整體比賽紀律與規則執行", "觀眾投票", "選手輪流"], "a": 1, "e": "教材第17頁說明一位主裁判將被任命，以負責整體比賽紀律與規則執行。", "adv": false}, {"p": 17, "cat": "總裁判", "q": "總裁判可指派哪些額外裁判？", "o": ["副裁判與記分裁判", "攝影裁判與醫療裁判", "只有檢錄裁判", "不得指派"], "a": 0, "e": "教材第17頁：指派額外裁判擔任副裁判與記分裁判。", "adv": false}, {"p": 18, "cat": "檢錄裁判", "q": "第18頁主要呈現哪一類工作情境？", "o": ["選手頒獎", "檢錄裁判檢查無人機球", "觀眾入場", "場地施工"], "a": 1, "e": "教材第18頁標題為裁判與賽事人員（檢錄裁判），照片呈現檢錄作業。", "adv": false}, {"p": 19, "cat": "檢錄裁判", "q": "第19頁照片中包含哪類檢錄器材？", "o": ["電池容量檢測器與電子秤", "足球與碼表", "投影機與麥克風", "GPS與羅盤"], "a": 0, "e": "教材第19頁照片呈現電池容量檢測器與電子秤。", "adv": false}, {"p": 20, "cat": "檢錄裁判", "q": "第20頁照片中的透明器材主要屬於哪個教材章節？", "o": ["檢錄裁判", "得分裁判", "選手休息區", "頒獎"], "a": 0, "e": "教材第20頁仍屬「裁判與賽事人員（檢錄裁判）」內容。", "adv": false}, {"p": 21, "cat": "主裁判", "q": "主裁判對賽事中無人機足球規則負有什麼責任？", "o": ["只負責計分", "最終詮釋全責", "只負責檢錄", "不負責規則"], "a": 1, "e": "教材第21頁：主裁判對賽事中無人機足球規則的最終詮釋負全責。", "adv": true}, {"p": 21, "cat": "主裁判", "q": "下列何者是主裁判職責？", "o": ["確認無人機球符合規格", "販售器材", "安排交通", "製作海報"], "a": 0, "e": "教材第21頁列有確認無人機球符合規格。", "adv": false}, {"p": 21, "cat": "主裁判", "q": "主裁判可依情況做出哪種比賽決定？", "o": ["中止或延遲比賽", "更改隊名", "更改教材", "取消所有規則"], "a": 0, "e": "教材第21頁：視情況決定中止或延遲比賽。", "adv": true}, {"p": 21, "cat": "主裁判", "q": "處理申訴事項及與其他賽事官員合作確保比賽公平安全，屬於誰的職責？", "o": ["主裁判", "觀眾", "攻擊手", "隊長單獨"], "a": 0, "e": "教材第21頁列為主裁判職責。", "adv": true}, {"p": 21, "cat": "主裁判", "q": "誰與裁判團共同監督整體比賽？", "o": ["主裁判", "單一選手", "觀眾", "場館人員"], "a": 0, "e": "教材第21頁：主裁判與裁判團共同監督整體比賽。", "adv": false}, {"p": 22, "cat": "得分與防守裁判", "q": "得分／防守裁判負責協同記分裁判做什麼？", "o": ["公正、順利地主持比賽", "更換隊服", "維修場館", "販售門票"], "a": 0, "e": "教材第22頁：負責協同記分裁判，公正、順利地主持比賽。", "adv": false}, {"p": 22, "cat": "得分與防守裁判", "q": "比賽期間，誰可進入比賽場地？", "o": ["任何觀眾", "只有授權人員", "所有候補選手", "媒體"], "a": 1, "e": "教材第22頁：必須適當注意比賽期間的安全問題，並確保只有授權人員才能進入比賽場地。", "adv": true}, {"p": 22, "cat": "得分與防守裁判", "q": "得分／防守裁判在每回合開始前應確認什麼？", "o": ["兩隊上場選手皆已登記", "觀眾人數", "音樂播放", "場館燈光顏色"], "a": 0, "e": "教材第22頁要求確認每回合開始前兩隊上場選手皆已登記。", "adv": true}, {"p": 22, "cat": "得分與防守裁判", "q": "下列何者屬得分／防守裁判工作？", "o": ["管控兩回合間休息時間", "決定票價", "設計隊徽", "安排住宿"], "a": 0, "e": "教材第22頁列有管控兩回合間休息時間。", "adv": false}, {"p": 22, "cat": "得分與防守裁判", "q": "得分／防守裁判可以要求不安全的無人機如何處理？", "o": ["繼續飛行", "停止飛行", "提高速度", "更換隊名"], "a": 1, "e": "教材第22頁：要求不安全的無人機停止飛行。", "adv": true}, {"p": 22, "cat": "得分與防守裁判", "q": "若有外部干擾或合理理由，得分／防守裁判可以做什麼？", "o": ["中止比賽", "直接宣布冠軍", "修改球門尺寸", "取消裁判團"], "a": 0, "e": "教材第22頁：如有外部干擾或合理理由，中止比賽。", "adv": true}, {"p": 22, "cat": "得分與防守裁判", "q": "比賽結束時，得分／防守裁判應與記分裁判合作記錄哪些內容？", "o": ["回合分數、最終比分、已執行處罰與特殊事件", "只有觀眾數", "只有隊名", "只有時間"], "a": 0, "e": "教材第22頁列明比賽結束時需記錄回合分數、最終比分、已執行處罰與任何特殊事件。", "adv": true}, {"p": 24, "cat": "計分裁判", "q": "每場比賽前應指定幾名記分裁判？", "o": ["1名", "2名", "3名", "4名"], "a": 1, "e": "教材第24頁：每場比賽前應指定兩名記分裁判，分別在比賽場地兩側。", "adv": true}, {"p": 24, "cat": "計分裁判", "q": "記分裁判應位於哪裡？", "o": ["同一側", "比賽場地兩側", "觀眾席", "場外任意位置"], "a": 1, "e": "教材第24頁：兩名記分裁判分別在比賽場地兩側。", "adv": false}, {"p": 24, "cat": "計分裁判", "q": "記分裁判應重點觀察什麼？", "o": ["各自負責一側場地上攻擊球員的得分情況", "觀眾反應", "隊服顏色", "場館溫度"], "a": 0, "e": "教材第24頁：根據同賽裁判事先指示，重點觀察各自負責一側場地上攻擊球員的得分情況。", "adv": true}, {"p": 25, "cat": "裁判團", "q": "裁判團可以在什麼情況下被提名？", "o": ["根據可能出現的情況", "只能決賽", "只有觀眾要求", "永遠不能"], "a": 0, "e": "教材第25頁：可以提名裁判團來根據可能出現的情況做出所有決定並對爭議作出裁決。", "adv": false}, {"p": 25, "cat": "裁判團", "q": "裁判團可處理什麼？", "o": ["所有決定並對爭議作出裁決", "只負責清潔", "只負責攝影", "只負責售票"], "a": 0, "e": "教材第25頁說明裁判團可根據可能出現的情況做出所有決定並對爭議作出裁決。", "adv": true}, {"p": 26, "cat": "進攻違規", "q": "聽到「Arm your quads」後，到比賽開始前若提早起飛，教材如何處理？", "o": ["不處理", "記罰球1次並重新開始", "直接取消資格", "加1分"], "a": 1, "e": "教材第26頁：在聽到 Arm your quads 之後，到比賽開始前音響起前起飛者，記罰球1次並重新開始。", "adv": true}, {"p": 26, "cat": "進攻違規", "q": "得分後，攻擊手再次穿越敵隊球門而未依規定完成回半場程序，屬於什麼？", "o": ["有效連續得分", "無效得分並判為違規，記罰球1次（可累罰）", "比賽結束", "防守違規"], "a": 1, "e": "教材第26頁說明得分後須依規定回到己方半場；未完成即再次穿越敵隊球門屬無效得分並判違規，記罰球1次，可累罰。", "adv": true}, {"p": 26, "cat": "進攻違規", "q": "攻擊手得分後直接直出，教材記罰為何？", "o": ["警告", "罰球1次", "扣2分", "取消資格"], "a": 1, "e": "教材第26頁第3點：攻擊手得分後直接直出，得一分也判違規，計罰球1次。", "adv": true}, {"p": 27, "cat": "防守違規", "q": "防守球將飛球懸停在己方球門內，教材如何處理？", "o": ["允許", "記罰球1次", "直接得分", "取消比賽"], "a": 1, "e": "教材第27頁：防守球將飛球懸停在己方球門內，記罰球1次。", "adv": true}, {"p": 27, "cat": "防守違規", "q": "防守球穿越己方球門後，從後往前或由前往後皆屬違規行為時，教材如何處理？", "o": ["不處理", "記罰球1次", "加分", "重賽整場"], "a": 1, "e": "教材第27頁第2點：記罰球1次。", "adv": true}, {"p": 27, "cat": "防守違規", "q": "防守球僅可從側邊及球門前方進行何種行為？", "o": ["干擾、撞擊或阻止敵隊攻擊手", "穿越己方球門", "停在球門內", "離場"], "a": 0, "e": "教材第27頁：防守球僅可從側邊及球門前方進行干擾、撞擊或阻止敵隊攻擊手。", "adv": true}, {"p": 27, "cat": "防守違規", "q": "防守球若從相反方向穿越己方球門進行撞擊阻止，屬於什麼？", "o": ["合法防守", "違規，記罰球1次", "自動得分", "暫停"], "a": 1, "e": "教材第27頁將此列為違規，記罰球1次。", "adv": true}, {"p": 28, "cat": "比賽中暫停", "q": "比賽進行中若攻擊手失能，隊長舉手並大喊暫停提出更換攻擊手，每局有幾次機會？", "o": ["1次", "2次", "3次", "不限"], "a": 0, "e": "教材第28頁：每局僅有一次機會。", "adv": true}, {"p": 28, "cat": "比賽中暫停", "q": "賽場的2～3分鐘設備調整時間，若尚未調整好設備，可在開賽前提出技術暫停，最長延長多久？", "o": ["30秒", "1分鐘", "2分鐘", "5分鐘"], "a": 1, "e": "教材第28頁：技術暫停僅能延長1分鐘。", "adv": true}, {"p": 28, "cat": "比賽中暫停", "q": "比賽過程中球機失能時，隊長應先做什麼再進場處理？", "o": ["直接進場", "舉手告知主審並取得主審同意", "等待觀眾同意", "自行停止比賽系統"], "a": 1, "e": "教材第28頁：隊長舉手告知主審並在獲得主審同意後，退出選手操作區處理。", "adv": true}, {"p": 28, "cat": "比賽中暫停", "q": "球機失能時，若掉落位置為對方場內，操作人員應如何處理？", "o": ["立即進入對方場內", "未告知主審也可處理", "未告知主審也未退出選手操作區而逕行處理視為違規", "由觀眾撿回"], "a": 2, "e": "教材第28頁：若球機失能時掉落位置為對方場內，操作人員未告知主審也未退出選手操作區，後續進攻皆為違規。", "adv": true}, {"p": 4, "cat": "比賽場地", "q": "是非題：關於「比賽場地的表面可以設置在哪裡？」，正確內容是「室內、外場地均可」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第4頁：表面可為室內、外場地，並應避免使用過於堅硬的表面。", "adv": false}, {"p": 4, "cat": "比賽場地", "q": "是非題：關於「飛行區域的表面覆蓋柔軟附加材料時，無人機球下陷在覆蓋範圍內不得超過多少？」，正確內容是「1公分」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第4頁規定不得沉陷超過1公分，以避免起飛問題。", "adv": false}, {"p": 4, "cat": "比賽場地", "q": "是非題：關於「F9A-A 建議保護籠尺寸為何？」，正確內容是「14m × 7m × 5m」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第4頁：F9A-A 長寬高為14m × 7m × 5m。", "adv": false}, {"p": 4, "cat": "比賽場地", "q": "是非題：關於「F9A-B 建議保護籠尺寸為何？」，正確內容是「6m × 3m × 3m」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第4頁：F9A-B 長寬高為6m × 3m × 3m。", "adv": false}, {"p": 4, "cat": "比賽場地", "q": "是非題：關於「檢查比賽場地覆蓋物時，教材特別要求注意哪一項？」，正確內容是「彈性效應是否影響比賽」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第4頁要求檢查覆蓋物的「彈性效應」是否影響比賽。", "adv": false}, {"p": 5, "cat": "起飛區與選手區", "q": "是非題：關於「起飛區長度依據什麼決定？」，正確內容是「球的直徑與上場人數」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第5頁：起飛區長度依球的直徑與上場人數決定。", "adv": false}, {"p": 5, "cat": "起飛區與選手區", "q": "是非題：關於「F9A-A 起飛區寬度不得超過多少？」，正確內容是「1.5m」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第5頁：F9A-A 不超過1.5m。", "adv": false}, {"p": 5, "cat": "起飛區與選手區", "q": "是非題：關於「F9A-B 起飛區寬度不得超過多少？」，正確內容是「1m」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第5頁：F9A-B 不超過1m。", "adv": false}, {"p": 6, "cat": "球門環", "q": "是非題：關於「F9A-A 球門環外徑 D1 為多少？」，正確內容是「100公分」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第6頁：F9A-A 外徑D1為100公分。", "adv": false}, {"p": 6, "cat": "球門環", "q": "是非題：關於「F9A-A 球門環內徑 D2 為多少？」，正確內容是「60公分」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第6頁：F9A-A 內徑D2為60公分。", "adv": false}, {"p": 6, "cat": "球門環", "q": "是非題：關於「F9A-A 球門環最大厚度 T 為多少？」，正確內容是「20公分」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第6頁：F9A-A 最大厚度20公分。", "adv": false}, {"p": 6, "cat": "球門環", "q": "是非題：關於「F9A-B 球門環外徑 D1 為多少？」，正確內容是「70公分」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第6頁：F9A-B 外徑D1為70公分。", "adv": false}, {"p": 6, "cat": "球門環", "q": "是非題：關於「F9A-B 球門環內徑 D2 為多少？」，正確內容是「40公分」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第6頁：F9A-B 內徑D2為40公分。", "adv": false}, {"p": 6, "cat": "球門環", "q": "是非題：關於「F9A-B 球門環最大厚度 T 為多少？」，正確內容是「10公分」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第6頁：F9A-B 最大厚度10公分。", "adv": false}, {"p": 7, "cat": "球門環", "q": "是非題：關於「球門環材料應具備什麼特性？」，正確內容是「夠堅固且有足夠彈性」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第7頁：材料夠堅固、有足夠彈性。", "adv": false}, {"p": 7, "cat": "球門環", "q": "是非題：關於「球門環顏色規定為何？」，正確內容是「一紅一藍，符合分配各隊顏色」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第7頁：一紅一藍，符合分配各隊顏色。", "adv": false}, {"p": 7, "cat": "球門環", "q": "是非題：關於「球門環附近可否有電子計分感測器？」，正確內容是「可以」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第7頁允許電子計分感測器，不干擾球穿越。", "adv": false}, {"p": 7, "cat": "球門環", "q": "是非題：關於「F9A-A 球門環位置為何？」，正確內容是「離底線1.5m、環內底高3m」。", "o": ["正確", "錯誤"], "a": 0, "e": "教材第7頁：F9A-A 離底線1.5m，環內底高3m。", "adv": false}];
+let state=JSON.parse(localStorage.getItem('faiRefState')||'{"attempts":0,"correct":0,"wrongIds":[],"pages":[]}');
+let run=[],idx=0,score=0,sessionWrong=[],locked=false,mode='';
+const $=id=>document.getElementById(id);
+function save(){localStorage.setItem('faiRefState',JSON.stringify(state))}
+function shuffle(a){return [...a].sort(()=>Math.random()-.5)}
+function hideAll(){['home','pagePick','quiz','result','dash'].forEach(x=>$(x).classList.add('hide'));window.scrollTo({top:0,left:0,behavior:'instant'})}
+function home(){hideAll();$('home').classList.remove('hide');window.scrollTo(0,0)}
+function modeLabel(m){return {basic:'🌱 初階完整練習',advanced:'🔥 進階重點練習',mock:'🏆 模擬檢定',wrong:'❌ 我的錯題',wrongExam:'🧠 錯題總複習考',sessionWrong:'🔁 本次錯題重做',page:'📚 依頁數練習'}[m]||m}
+function start(m,custom=null){
+ mode=m; let pool=custom||Q.map((q,i)=>({...q,id:i}));
+ if(!custom){
+  if(m==='advanced') pool=pool.filter(q=>q.adv);
+  if(m==='wrong'||m==='wrongExam') pool=pool.filter(q=>state.wrongIds.includes(q.id));
+  if(m==='sessionWrong') pool=pool.filter(q=>sessionWrong.includes(q.id));
+ }
+ if(!pool.length){alert('目前沒有這個範圍的錯題，太厲害了！');return}
+ let n=m==='mock'?Math.min(30,pool.length):m==='advanced'?Math.min(25,pool.length):Math.min(30,pool.length);
+ if(['wrong','wrongExam','sessionWrong','page'].includes(m)) n=pool.length;
+ run=shuffle(pool).slice(0,n);idx=0;score=0;sessionWrong=[];hideAll();$('quiz').classList.remove('hide');window.scrollTo(0,0);$('modeName').textContent=modeLabel(m);render()
+}
+function render(){
+ locked=false;$('next').classList.add('hide');$('explain').classList.add('hide');
+ let q=run[idx];$('counter').textContent=`${idx+1} / ${run.length}｜教材 P.${q.p}`;$('bar').style.width=`${idx/run.length*100}%`;
+ $('question').textContent=q.q;$('options').innerHTML='';
+ let order=q.o.map((t,i)=>({t,i})); order=shuffle(order);
+ order.forEach(x=>{let b=document.createElement('button');b.className='opt';b.textContent=x.t;b.onclick=()=>answer(x.i,b);$('options').appendChild(b)})
+}
+function answer(choice,btn){
+ if(locked)return;locked=true;let q=run[idx],ok=choice===q.a;state.attempts++; if(ok){score++;state.correct++;btn.classList.add('ok')} else {btn.classList.add('bad');sessionWrong.push(q.id);if(!state.wrongIds.includes(q.id))state.wrongIds.push(q.id)}
+ if(ok && state.wrongIds.includes(q.id)){state.wrongIds=state.wrongIds.filter(x=>x!==q.id)}
+ if(!state.pages.includes(q.p))state.pages.push(q.p);save();
+ [...$('options').children].forEach(b=>{if(b.textContent===q.o[q.a])b.classList.add('ok')});
+ $('explain').innerHTML=`<b>${ok?'✅ 答對了':'❌ 這題要再加強'}</b><br>${q.e}<br><span class="small">教材來源：P.${q.p}｜${q.cat}</span>`;
+ $('explain').classList.remove('hide');$('next').classList.remove('hide')
+}
+function nextQ(){idx++;if(idx>=run.length)return finish();render()}
+function finish(){hideAll();$('result').classList.remove('hide');window.scrollTo(0,0);let pct=Math.round(score/run.length*100);$('resultStats').innerHTML=`<div class=stat><b>${score}</b>答對</div><div class=stat><b>${run.length-score}</b>答錯</div><div class=stat><b>${pct}%</b>正確率</div>`}
+function showPagePractice(){hideAll();$('pagePick').classList.remove('hide');window.scrollTo(0,0);let pages=[...new Set(Q.map(q=>q.p))].sort((a,b)=>a-b);$('pageSel').innerHTML=pages.map(p=>`<option value="${p}">教材第 ${p} 頁（${Q.filter(q=>q.p===p).length}題）</option>`).join('')}
+function startPage(){let p=+$('pageSel').value;start('page',Q.map((q,i)=>({...q,id:i})).filter(q=>q.p===p))}
+function showDashboard(){hideAll();$('dash').classList.remove('hide');window.scrollTo(0,0);let rate=state.attempts?Math.round(state.correct/state.attempts*100):0;$('dashStats').innerHTML=`<div class=stat><b>${state.attempts}</b>累積作答</div><div class=stat><b>${rate}%</b>累積正確率</div><div class=stat><b>${state.wrongIds.length}</b>目前錯題</div><div class=stat><b>${state.pages.length}/29</b>教材頁面進度</div>`}
+function printWrong(withAnswers){
+ let ids=state.wrongIds.length?state.wrongIds:sessionWrong;let qs=Q.map((q,i)=>({...q,id:i})).filter(q=>ids.includes(q.id));
+ if(!qs.length){alert('目前沒有錯題可輸出。');return}
+ let per=8,pages=[];for(let i=0;i<qs.length;i+=per)pages.push(qs.slice(i,i+per));
+ $('printSheet').innerHTML=pages.map((pg,pi)=>`<div class="print-page"><h2>FAI 丙級裁判檢定｜${withAnswers?'錯題答案解析':'錯題加強練習卷'}</h2><div>姓名：＿＿＿＿＿＿　日期：＿＿＿＿＿＿　　第 ${pi+1}/${pages.length} 頁</div><hr>${pg.map((q,j)=>`<div class=print-q><b>${pi*per+j+1}. ${q.q}</b><br>${q.o.map((x,k)=>`${String.fromCharCode(65+k)}. ${x}`).join('　')} ${withAnswers?`<br><b>答案：${String.fromCharCode(65+q.a)}｜${q.o[q.a]}</b><br>解析：${q.e}`:'<br>作答：＿＿＿＿'}</div>`).join('')}<div class=print-sign>製作：黎昕 Li Xin 跨科教育規劃師／蜜雪兒 Michelle</div></div>`).join('');
+ $('printSheet').classList.remove('hide');window.print();setTimeout(()=>$('printSheet').classList.add('hide'),500)
+}
+</script></body></html>
