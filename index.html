@@ -287,6 +287,12 @@ body{overflow-x:hidden!important}
 #pagePick,#quiz,#result,#dash{z-index:5}
 .hide{display:none!important}
 .panel{background:#f7fbfd!important}
+@media(max-width:759px){
+  footer{
+    position:static!important;
+    margin:12px 14px 18px!important;
+  }
+}
 </style>
 </head>
 <body><div class="wrap">
@@ -297,12 +303,6 @@ body{overflow-x:hidden!important}
 <button class="b1" onclick="start('basic')">🌱 初階完整練習<br><span class="small">教材全範圍隨機練習</span></button>
 <button class="b2" onclick="start('advanced')">🔥 進階重點練習<br><span class="small">數字・規格・情境・易混淆</span></button>
 <button class="b3" onclick="start('mock')">🏆 模擬檢定</button>
-@media(max-width:759px){
-  footer{
-    position:static!important;
-    margin:12px 14px 18px!important;
-  }
-}
  <button class="b4" onclick="start('wrong')">❌ 我的錯題</button>
 <button class="b5" onclick="start('wrongExam')">🧠 錯題總複習考</button>
 <button class="b3" onclick="showPagePractice()">📚 依教材頁數練習</button>
