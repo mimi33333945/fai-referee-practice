@@ -276,6 +276,12 @@ footer{font-size:16px!important;font-weight:1000!important;padding:10px 14px!imp
 /* ===== App-style page navigation: one screen at a time ===== */
 body{overflow-x:hidden!important}
 #home,#pagePick,#quiz,#result,#dash{
+ @media(max-width:759px){
+  footer{
+    position:static!important;
+    margin:12px 14px 18px!important;
+  }
+}
  width:100vw!important;
  min-height:100dvh!important;
  position:absolute!important;
